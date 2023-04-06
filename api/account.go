@@ -2,6 +2,7 @@ package api
 
 import (
 	"database/sql"
+	"fmt"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -63,4 +64,32 @@ func (server *Server) getAccount(ctx *gin.Context) {
 	}
 
 	ctx.JSON(http.StatusOK, account)
+}
+
+// payload as query params (and pagination)
+type listAccountRequest struct {
+	Page_ID   int32 `form:"page_id" binding:"required,min=1"`
+	Page_Size int32 `form:"page_size" binding:"required,min=5,max=10`
+}
+
+func (server *Server) listAccount(ctx *gin.Context) {
+	var req listAccountRequest
+	if err := ctx.ShouldBindQuery(&req); err != nil {
+		ctx.JSON(http.StatusBadRequest, errorResponse(err))
+		return
+	}
+
+	arg := db.ListAccountParams{
+		Limit:  req.Page_Size,
+		Offset: (req.Page_ID - 1) * req.Page_Size,
+	}
+
+	accounts, err := server.store.ListAccount(ctx, arg)
+	if err != nil {
+		ctx.JSON(http.StatusInternalServerError, errorResponse(err))
+		return
+	}
+	fmt.Println("req", req.Page_ID, req.Page_Size)
+	fmt.Println("arg", arg.Limit, arg.Offset)
+	ctx.JSON(http.StatusOK, accounts)
 }
