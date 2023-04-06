@@ -2,31 +2,29 @@ package api
 
 import (
 	"github.com/gin-gonic/gin"
-	db "github.com/techschool/db/sqlc"
+	db "github.com/techschool/simplebank/db/sqlc"
 )
 
+// Server serves HTTP requests for our banking service.
 type Server struct {
-	store  *db.Store
+	store  db.Store
 	router *gin.Engine
 }
 
-func NewServer(store *db.Store) *Server {
+// NewServer creates a new HTTP server and set up routing.
+func NewServer(store db.Store) *Server {
 	server := &Server{store: store}
 	router := gin.Default()
 
-	router.GET("/",server.root)
-	router.GET("/account/:id", server.getAccount)
-	router.POST("/account/create", server.createAccount)
+	router.POST("/accounts/create", server.createAccount)
+	router.GET("/accounts/:id", server.getAccount)
 	router.GET("/accounts", server.listAccount)
-	router.PUT("/account/update",server.updateAccount)
-	router.DELETE("account/delete/:id",server.deleteAccount)
-	router.PUT("account/add",server.addAccountBalance)
 
 	server.router = router
 	return server
 }
 
-// start runs server on {address}
+// Start runs the HTTP server on a specific address.
 func (server *Server) Start(address string) error {
 	return server.router.Run(address)
 }

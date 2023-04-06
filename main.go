@@ -6,7 +6,7 @@ import (
 
 	_ "github.com/lib/pq"
 	"github.com/techschool/api"
-	db "github.com/techschool/db/sqlc"
+	db "github.com/techschool/simplebank/db/sqlc"
 	"github.com/techschool/util"
 )
 
