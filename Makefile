@@ -17,7 +17,7 @@ sqlc:
 	sqlc generate
 
 test:
-	/usr/local/go/bin/go test -timeout 30s -coverprofile=/var/folders/cq/tx2yxt4d4v52wfp7rn0g6n100000gn/T/vscode-gofvTlOi/go-code-cover github.com/techschool/db/sqlc
+	go test -v -cover ./...
 
 server:
 	go run main.go
