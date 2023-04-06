@@ -23,7 +23,7 @@ server:
 	go run main.go
 
 mock:
-	mockgen -build_flags=--mod=mod -package mockdb -destination db/mock/store.go github.com/phihdn/simplebank/db/sqlc Store
+	mockgen -build_flags=--mod=mod -package mockdb -destination db/mock/store.go github.com/techschool/simplebank/db/sqlc Store
 
 
 .PHONY: postgres createdb dropdb migrateup migratedown sqlc test server mock
