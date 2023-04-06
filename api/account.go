@@ -160,7 +160,7 @@ func (server *Server) addAccountBalance(ctx *gin.Context) {
 	}
 
 	arg := db.AddAccountBalanceParams{
-		ID:      req.ID,
+		ID:     req.ID,
 		Amount: req.Amount,
 	}
 
