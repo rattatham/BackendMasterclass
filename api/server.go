@@ -14,6 +14,8 @@ func NewServer(store *db.Store) *Server {
 	server := &Server{store: store}
 	router := gin.Default()
 
+	router.GET("/",server.root)
+	router.GET("/accounts/:id", server.getAccount)
 	router.POST("/accounts", server.createAccount)
 
 	server.router = router
